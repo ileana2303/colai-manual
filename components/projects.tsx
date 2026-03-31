@@ -104,8 +104,6 @@ function ProjectCard({ project, onOpen, featured = false }) {
   return (
     <div
       ref={cardRef}
-      data-cursor-interactive="true"
-      data-cursor-theme="dark"
       onMouseEnter={handleEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleLeave}
@@ -202,7 +200,6 @@ function ProjectModal({ project, onClose }) {
 
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-lg p-6"
-      data-cursor-theme="dark"
       onClick={onClose}
     >
       <div
@@ -215,7 +212,6 @@ function ProjectModal({ project, onClose }) {
         <button
           type="button"
           onClick={onClose}
-          data-cursor-theme="dark"
           className="absolute right-4 top-4 z-20 text-white/70 hover:text-white sm:right-5 sm:top-5"
         >
           Close
@@ -284,7 +280,7 @@ export default function Projects() {
 
   return (
 
-    <section id="projects" className="py-32" data-cursor-theme="light">
+    <section id="projects" className="py-32">
       <Container>
         <div className="mb-12 text-center">
           <h2 className="mb-6 flex items-center justify-center gap-3 text-center text-sm font-bold tracking-wide text-black">

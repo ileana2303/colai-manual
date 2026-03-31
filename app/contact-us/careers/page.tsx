@@ -60,7 +60,6 @@ export default function Careers() {
 
                     <div
                         className="flex items-center justify-center bg-black px-4 py-8 sm:px-6 lg:bg-transparent"
-                        data-cursor-theme="dark"
                     >
                         <form
                             onSubmit={handleSubmit}

@@ -22,7 +22,6 @@ export default function Services() {
           {services.map((service) => (
             <div
               key={service.title}
-              data-cursor-theme="dark"
               className="flex aspect-square flex-col items-center justify-start rounded-2xl border border-black bg-black p-8 text-center text-[#FFFAF0] transition duration-300 hover:-translate-y-2 hover:border-[#FFFAF0] hover:shadow-2xl"
             >
               <h3 className="mb-4 text-4xl font-semibold">{service.title}</h3>

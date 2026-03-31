@@ -1,15 +1,9 @@
 import Hero from "@/components/hero"
-import Services from "@/components/services"
-import Projects from "@/components/projects"
-import CTA from "@/components/cta"
 
 export default function Home() {
   return (
-    <main>
+    <main className="flex flex-1 overflow-hidden" data-dev-reload="1">
       <Hero />
-      <Services />
-      <Projects />
-      <CTA />
     </main>
   )
 }

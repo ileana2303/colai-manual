@@ -1,15 +1,12 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { useState } from "react"
 import Section from "./layout/section"
 import Container from "./layout/container"
 
 export default function Hero() {
-  const [isProjectsHovered, setIsProjectsHovered] = useState(false)
-
   return (
-    <Section className="relative flex min-h-[72vh] items-center !pt-16 !pb-6 md:min-h-[78vh] md:!pt-20 md:!pb-8">
+    <Section className="relative flex h-full min-h-full items-center !pt-16 !pb-6 md:!pt-20 md:!pb-8">
       <Container className="text-center">
 
         <motion.h1
@@ -29,8 +26,7 @@ export default function Hero() {
 
         <div className="mt-8 flex justify-center gap-6">
           <a
-            href="/contact-us"
-            data-cursor-theme="light"
+            href="/menu"
             className="px-8 py-4 rounded-full border-2 border-black 
 text-white flex items-center gap-2
 
@@ -41,12 +37,11 @@ transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
 
 hover:bg-[position:0_0] hover:text-black"
           >
-            Start Your Project
+            Ανάλυση Menu
           </a>
 
           <a
-            href="#projects"
-            data-cursor-theme={isProjectsHovered ? "dark" : "light"}
+            href="/create-order"
             className="px-8 py-4 rounded-full border-2 border-black 
 text-black flex items-center gap-2
 
@@ -56,10 +51,8 @@ bg-[length:100%_220%] bg-[position:0_100%]
 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
 
 hover:bg-[position:0_0] hover:text-white"
-            onMouseEnter={() => setIsProjectsHovered(true)}
-            onMouseLeave={() => setIsProjectsHovered(false)}
           >
-            Selected Projects ↓
+            Δημιουργία Νέας Παραγγελίας
           </a>
         </div>
 

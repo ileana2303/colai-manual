@@ -5,20 +5,58 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 
-const navLinks = [
-  { href: "/", label: "Home", description: "Overview" },
-  { href: "/#techorbit", label: "Ecosystem", description: "Technology stack" },
-  { href: "/#services", label: "Services", description: "What we build" },
-  { href: "/#projects", label: "Works", description: "Selected projects" },
-  { href: "/contact-us", label: "Contact", description: "Start a conversation" },
+type NavSubItem = {
+  href: string
+  label: string
+}
+
+type NavLink = {
+  href: string
+  label: string
+  description: string
+  subItems?: NavSubItem[]
+}
+
+const navLinks: NavLink[] = [
+  { href: "/", label: "Home", description: "App Guide" },
+  {
+    href: "/menu",
+    label: "Menu",
+    description: "Ανάλυση",
+    subItems: [
+      { href: "/menu#arxiki-othoni", label: "Αρχική Οθόνη" },
+      { href: "/menu#paraggelies", label: "Παραγγελίες" },
+      { href: "/menu#imerologio-wc", label: "Ημερολόγιο WC" },
+      { href: "/menu#aitimata-ekptosis", label: "Αιτήματα Έκπτωσης" },
+      { href: "/menu#rithmiseis", label: "Ρυθμίσεις" },
+    ],
+  },
+  {
+    href: "/create-order",
+    label: "Δημιουργία Νέας Παραγγελίας",
+    description: "Workflow",
+    subItems: [
+      { href: "/create-order#gnomatefseis", label: "Γνωματεύσεις" },
+      { href: "/create-order#aftomati-symplirosi-asthenis", label: "Αυτόματη Συμπλήρωση - Ασθενής" },
+      { href: "/create-order#stoixeia-iatrou", label: "Στοιχεία Ιατρού" },
+      { href: "/create-order#stoixeia-syntagis", label: "Στοιχεία Συνταγής" },
+      { href: "/create-order#ylika", label: "Υλικά" },
+      { href: "/create-order#plafon", label: "Πλαφόν" },
+      { href: "/create-order#symmetoxi", label: "Συμμετοχή" },
+      { href: "/create-order#synaineis", label: "Συναίνεση" },
+      { href: "/create-order#touchdown", label: "Touchdown" },
+      { href: "/create-order#ektos-eopyy", label: "Παραγγελία Εκτός ΕΟΠΥΥ" },
+      { href: "/create-order#apothikefsi-paraggelias", label: "Αποθήκευση Παραγγελίας" },
+      { href: "/create-order#xrisimes-symvoules", label: "Χρήσιμες Συμβουλές" },
+    ],
+  },
 ]
 
 function getNavLinkClassName(isActive: boolean) {
-  return `group flex items-center justify-between rounded-[1.5rem] px-4 py-3 text-left transition ${
-    isActive
-      ? "bg-black text-[#FFFAF0] shadow-[0_20px_40px_rgba(0,0,0,0.14)]"
-      : "text-black/72 hover:bg-black/5 hover:text-black"
-  }`
+  return `group flex items-center justify-between rounded-[1.5rem] px-4 py-3 text-left transition ${isActive
+    ? "bg-black text-[#FFFAF0] shadow-[0_20px_40px_rgba(0,0,0,0.14)]"
+    : "text-black/72 hover:bg-black/5 hover:text-black"
+    }`
 }
 
 export default function Navbar() {
@@ -57,7 +95,7 @@ export default function Navbar() {
       return isContactPage
     }
 
-    return false
+    return pathname === href || pathname.startsWith(`${href}/`)
   }
 
   const navContent = (
@@ -65,7 +103,7 @@ export default function Navbar() {
       <Link href="/" className="flex items-center gap-3" onClick={closeMobileMenu}>
         <Image
           src="/logo.png"
-          alt="BIAIS Logo"
+          alt="Colai Logo"
           width={52}
           height={52}
           priority
@@ -73,59 +111,55 @@ export default function Navbar() {
         />
         <div className="min-w-0">
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-black/45">
-            Product Studio
+            Manual
           </p>
           <span className="block truncate text-2xl font-bold tracking-tight">
-            Colai Manual
+            Colai App
           </span>
         </div>
       </Link>
 
-      <div className="mt-10 rounded-[2rem] border border-black/10 bg-white/40 p-3">
-        <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.24em] text-black/45">
-          Navigation
-        </p>
-
+      <div className="mt-10 rounded-[2rem] p-3">
+    
         <nav className="mt-3 flex flex-col gap-1">
           {navLinks.map((link) => {
             const isActive = isLinkActive(link.href)
 
             return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={getNavLinkClassName(isActive)}
-                aria-current={isActive ? "page" : undefined}
-                onClick={closeMobileMenu}
-              >
-                <span className="text-base font-semibold">{link.label}</span>
-                <span
-                  className={`text-xs uppercase tracking-[0.18em] ${
-                    isActive ? "text-[#FFFAF0]/72" : "text-black/35"
-                  }`}
+              <div key={link.href} className="space-y-2">
+                <Link
+                  href={link.href}
+                  className={getNavLinkClassName(isActive)}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={closeMobileMenu}
                 >
-                  {link.description}
-                </span>
-              </Link>
+                  <span className="text-base font-semibold">{link.label}</span>
+                  <span
+                    className={`text-xs uppercase tracking-[0.18em] ${isActive ? "text-[#FFFAF0]/72" : "text-black/35"
+                      }`}
+                  >
+                    {link.description}
+                  </span>
+                </Link>
+
+                {link.subItems?.length ? (
+                  <div className="ml-4 flex flex-col gap-1 border-l border-black/10 pl-4">
+                    {link.subItems.map((subItem) => (
+                      <Link
+                        key={subItem.href}
+                        href={subItem.href}
+                        className="rounded-2xl px-3 py-2 text-sm text-black/60 transition hover:bg-black/5 hover:text-black"
+                        onClick={closeMobileMenu}
+                      >
+                        {subItem.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             )
           })}
         </nav>
-      </div>
-
-      <div className="mt-auto rounded-[2rem] bg-black px-5 py-6 text-[#FFFAF0] shadow-[0_30px_60px_rgba(0,0,0,0.18)]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#FFFAF0]/55">
-          Let&apos;s Build
-        </p>
-        <p className="mt-3 text-sm leading-6 text-[#FFFAF0]/72">
-          AI systems, backend platforms, and product delivery from one team.
-        </p>
-        <Link
-          href={cta.href}
-          className="mt-6 inline-flex w-full items-center justify-center rounded-full border border-[#FFFAF0]/25 bg-[#FFFAF0] px-4 py-3 text-sm font-semibold text-black transition hover:bg-transparent hover:text-[#FFFAF0]"
-          onClick={closeMobileMenu}
-        >
-          {cta.label}
-        </Link>
       </div>
     </>
   )
@@ -137,7 +171,7 @@ export default function Navbar() {
           <Link href="/" className="flex min-w-0 items-center gap-3">
             <Image
               src="/logo.png"
-              alt="BIAIS Logo"
+              alt="Colai Logo"
               width={40}
               height={40}
               priority
@@ -161,19 +195,16 @@ export default function Navbar() {
             </span>
             <span className="relative block h-4 w-4">
               <span
-                className={`absolute left-0 top-0 block h-0.5 w-4 rounded-full bg-current transition ${
-                  isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""
-                }`}
+                className={`absolute left-0 top-0 block h-0.5 w-4 rounded-full bg-current transition ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""
+                  }`}
               />
               <span
-                className={`absolute left-0 top-[7px] block h-0.5 w-4 rounded-full bg-current transition ${
-                  isMobileMenuOpen ? "opacity-0" : ""
-                }`}
+                className={`absolute left-0 top-[7px] block h-0.5 w-4 rounded-full bg-current transition ${isMobileMenuOpen ? "opacity-0" : ""
+                  }`}
               />
               <span
-                className={`absolute left-0 top-[14px] block h-0.5 w-4 rounded-full bg-current transition ${
-                  isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
-                }`}
+                className={`absolute left-0 top-[14px] block h-0.5 w-4 rounded-full bg-current transition ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""
+                  }`}
               />
             </span>
           </button>

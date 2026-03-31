@@ -19,7 +19,6 @@ export default function CTA() {
 
           <div
             className="w-full max-w-[28rem] bg-black rounded-3xl p-16 flex flex-col items-center justify-between md:h-[min(36vw,calc(100dvh-20rem))] md:max-w-[min(44vw,calc((100dvh-20rem)*1.18))]"
-            data-cursor-theme="dark"
           >
 
             <h3 className="text-4xl md:text-5xl text-[#FFFAF0] font-bold text-center">
@@ -39,7 +38,6 @@ export default function CTA() {
 
           <div
             className="w-full max-w-[28rem] bg-black rounded-3xl p-16 flex flex-col items-center justify-between md:h-[min(36vw,calc(100dvh-20rem))] md:max-w-[min(44vw,calc((100dvh-20rem)*1.18))]"
-            data-cursor-theme="dark"
           >
 
             <h3 className="text-4xl md:text-5xl text-[#FFFAF0] font-bold text-center">
