@@ -100,3 +100,11 @@ body {
   font-family: system-ui, sans-serif;
   overflow-x: hidden;
 }
+
+.menu-preview-video::-webkit-media-controls-fullscreen-button,
+.menu-preview-video::-webkit-media-controls-mute-button,
+.menu-preview-video::-webkit-media-controls-volume-slider,
+.menu-preview-video::-webkit-media-controls-volume-control-container,
+.menu-preview-video::-webkit-media-controls-volume-control {
+  display: none;
+}
