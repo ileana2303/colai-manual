@@ -27,10 +27,10 @@ export default function Hero() {
         <div className="mt-8 flex justify-center gap-6">
           <a
             href="/menu"
-            className="px-8 py-4 rounded-full border-2 border-black 
+            className="px-8 py-4 rounded-full border-2 border-[#27BDAE] 
 text-white flex items-center gap-2
 
-bg-[linear-gradient(to_top,black_50%,#FFFAF0_50%)]
+bg-[linear-gradient(to_top,#27BDAE_50%,#FFFAF0_50%)]
 bg-[length:100%_220%] bg-[position:0_100%]
 
 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
@@ -42,10 +42,10 @@ hover:bg-[position:0_0] hover:text-black"
 
           <a
             href="/create-order"
-            className="px-8 py-4 rounded-full border-2 border-black 
+            className="px-8 py-4 rounded-full border-2 border-[#27BDAE] 
 text-black flex items-center gap-2
 
-bg-[linear-gradient(to_top,#FFFAF0_50%,black_50%)]
+bg-[linear-gradient(to_top,#FFFAF0_50%,#27BDAE_50%)]
 bg-[length:100%_220%] bg-[position:0_100%]
 
 transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]

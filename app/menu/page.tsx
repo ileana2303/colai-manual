@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 type ContentBlock = {
   title?: string
@@ -11,6 +14,12 @@ type MenuSection = {
   title: string
   description: string
   blocks: ContentBlock[]
+  media?: {
+    type: "image" | "video"
+    src: string
+    alt?: string
+    poster?: string
+  }
 }
 
 const menuSections: MenuSection[] = [
@@ -18,6 +27,11 @@ const menuSections: MenuSection[] = [
     id: "arxiki-othoni",
     title: "Αρχική Οθόνη",
     description: "Η αρχική οθόνη παρέχει συνοπτική εικόνα της δραστηριότητάς σας.",
+    media: {
+      type: "image",
+      src: "/menu-demos/arxiki-othoni.jpg",
+      alt: "Demo αρχικής οθόνης",
+    },
     blocks: [
       {
         items: [
@@ -35,6 +49,11 @@ const menuSections: MenuSection[] = [
     id: "paraggelies",
     title: "Παραγγελίες",
     description: "Στην οθόνη Παραγγελίες εμφανίζεται η λίστα όλων των καταχωρημένων παραγγελιών.",
+    media: {
+      type: "image",
+      src: "/menu-demos/paraggelies/demo.jpg",
+      alt: "Demo ενότητας παραγγελιών",
+    },
     blocks: [
       {
         title: "Αναζήτηση",
@@ -68,6 +87,11 @@ const menuSections: MenuSection[] = [
     id: "imerologio-wc",
     title: "Ημερολόγιο WC",
     description: "Στην ενότητα WC εμφανίζονται συγκεντρωτικά οι παραγγελίες ανά μήνα.",
+    media: {
+      type: "image",
+      src: "/menu-demos/imerologio-wc/demo.jpg",
+      alt: "Demo ημερολογίου WC",
+    },
     blocks: [
       {
         title: "Προβολή ανά μήνα",
@@ -96,6 +120,11 @@ const menuSections: MenuSection[] = [
     id: "aitimata-ekptosis",
     title: "Αιτήματα Έκπτωσης",
     description: "Στην ενότητα Αιτήματα εμφανίζονται τα αιτήματα έκπτωσης που έχουν καταχωρηθεί για παραγγελίες.",
+    media: {
+      type: "image",
+      src: "/menu-demos/aitimata-ekptosis/demo.jpg",
+      alt: "Demo αιτημάτων έκπτωσης",
+    },
     blocks: [
       {
         title: "Πληροφορίες Αιτήματος",
@@ -128,6 +157,11 @@ const menuSections: MenuSection[] = [
     id: "rithmiseis",
     title: "Ρυθμίσεις",
     description: "Στην ενότητα Ρυθμίσεις μπορείτε να διαχειριστείτε βασικές επιλογές της εφαρμογής.",
+    media: {
+      type: "image",
+      src: "/menu-demos/rithmiseis/demo.jpg",
+      alt: "Demo ρυθμίσεων",
+    },
     blocks: [
       {
         title: "Theme",
@@ -167,124 +201,356 @@ function GreenDotHeading({ title }: { title: string }) {
   )
 }
 
-export default function MenuPage() {
+function MediaFallback({
+  title,
+  description,
+}: {
+  title: string
+  description: string
+}) {
   return (
-    <main className="flex-1 bg-[radial-gradient(circle_at_top,rgba(47,168,79,0.08),transparent_28%),linear-gradient(180deg,#fffaf0_0%,#f8f2e3_100%)]">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
-        <section className="grid gap-6 overflow-hidden rounded-[2rem] border border-black/10 bg-white/80 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.08)] backdrop-blur sm:p-10 lg:grid-cols-[1.3fr_0.7fr]">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#2F6F3E]">
-              Ανάλυση Menu
-            </p>
-            <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-black sm:text-5xl">
-              Περιήγηση στις βασικές ενότητες της εφαρμογής
-            </h1>
-            <p className="mt-5 max-w-2xl text-base leading-7 text-black/[0.68] sm:text-lg">
-              Η σελίδα αυτή συγκεντρώνει τις βασικές πληροφορίες του menu, ώστε να
-              εντοπίζετε γρήγορα τις κύριες οθόνες, τα φίλτρα αναζήτησης και τις
-              διαθέσιμες ενέργειες.
-            </p>
+    <div className="flex h-full flex-col justify-between bg-[radial-gradient(circle_at_top,rgba(47,168,79,0.22),transparent_24%),linear-gradient(180deg,#fffdf8_0%,#f6eddc_100%)] p-5 pt-12">
+      <div className="rounded-[1.4rem] border border-black/10 bg-white/88 p-4 shadow-[0_18px_40px_rgba(0,0,0,0.08)]">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#2F6F3E]">
+          Demo
+        </p>
+        <h4 className="mt-2 text-base font-semibold tracking-tight text-black">
+          {title}
+        </h4>
+        <p className="mt-2 text-xs leading-5 text-black/60">
+          {description}
+        </p>
+      </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              {menuSections.map((section) => (
-                <a
-                  key={section.id}
-                  href={`#${section.id}`}
-                  className="rounded-full border border-[#2FA84F]/20 bg-[rgba(47,168,79,0.08)] px-4 py-2 text-sm font-medium text-[#225E34] transition hover:border-[#2FA84F]/40 hover:bg-[rgba(47,168,79,0.14)]"
-                >
-                  {section.title}
-                </a>
-              ))}
-            </div>
+      <div className="my-4 flex flex-1 items-center justify-center rounded-[1.6rem] border-2 border-dashed border-[#2FA84F]/35 bg-white/72 p-4">
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#225E34]">
+            Image / Video
+          </p>
+          <p className="mt-3 max-w-[11rem] text-xs leading-5 text-black/58">
+            Πρόσθεσε αρχείο στο `public/menu-demos/...` για να εμφανιστεί εδώ.
+          </p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        <div className="rounded-[1rem] border border-black/8 bg-white/76 px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.18em] text-black/55">
+          Screenshot
+        </div>
+        <div className="rounded-[1rem] border border-black/8 bg-white/76 px-3 py-2 text-center text-[11px] font-medium uppercase tracking-[0.18em] text-black/55">
+          Walkthrough
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function SectionMedia({
+  media,
+  title,
+  description,
+}: {
+  media?: MenuSection["media"]
+  title: string
+  description: string
+}) {
+  const [hasError, setHasError] = useState(false)
+
+  useEffect(() => {
+    setHasError(false)
+  }, [media?.src, media?.type])
+
+  if (!media || hasError) {
+    return <MediaFallback title={title} description={description} />
+  }
+
+  if (media.type === "video") {
+    return (
+      <video
+        key={media.src}
+        controls
+        playsInline
+        poster={media.poster}
+        className="h-full w-full bg-black object-cover"
+        onError={() => setHasError(true)}
+      >
+        <source src={media.src} />
+      </video>
+    )
+  }
+
+  return (
+    <img
+      key={media.src}
+      src={media.src}
+      alt={media.alt ?? title}
+      className="h-full w-full object-cover"
+      onError={() => setHasError(true)}
+    />
+  )
+}
+
+function PhoneFrame({
+  title,
+  description,
+  media,
+  large = false,
+}: {
+  title: string
+  description: string
+  media?: MenuSection["media"]
+  large?: boolean
+}) {
+  return (
+    <div className={`mx-auto w-full ${large ? "max-w-[26rem]" : "max-w-none"}`}>
+      <div className="rounded-[3rem] bg-[#151515] p-[0.45rem] shadow-[0_30px_80px_rgba(0,0,0,0.24)]">
+        <div className="relative overflow-hidden rounded-[2.55rem] border border-white/10 bg-[#111111]">
+          <div className="absolute left-1/2 top-3 z-10 h-6 w-28 -translate-x-1/2 rounded-full bg-black/85" />
+          <div className="pointer-events-none absolute inset-[0.35rem] rounded-[2.2rem] border border-white/10" />
+          <div className="aspect-[390/844] overflow-hidden">
+            <SectionMedia media={media} title={title} description={description} />
           </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
-          <div className="relative flex min-h-[260px] items-center justify-center rounded-[1.75rem] border border-[rgba(47,168,79,0.18)] bg-[linear-gradient(160deg,rgba(47,168,79,0.18),rgba(255,255,255,0.88)_58%,rgba(248,242,227,0.96)_100%)] p-8">
-            <div className="absolute inset-6 rounded-[1.5rem] border border-white/70" />
-            <div className="relative flex w-full max-w-xs flex-col items-center rounded-[1.75rem] border border-black/10 bg-white/[0.85] px-6 py-8 text-center shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
-              <Image
-                src="/logo.png"
-                alt="Colai Manual"
-                width={112}
-                height={112}
-                priority
-                className="h-24 w-24 rounded-[1.75rem] border border-black/10 bg-white p-3 shadow-[0_14px_34px_rgba(0,0,0,0.08)]"
-              />
-              <p className="mt-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#2F6F3E]">
-                Quick Access
-              </p>
-              <p className="mt-3 text-sm leading-6 text-black/[0.65]">
-                Αναφορά για dashboard, παραγγελίες, ημερολόγιο WC, αιτήματα και ρυθμίσεις.
-              </p>
-            </div>
-          </div>
-        </section>
+function DemoPlaceholder({
+  title,
+  description,
+  media,
+  onOpen,
+}: {
+  title: string
+  description: string
+  media?: MenuSection["media"]
+  onOpen: () => void
+}) {
+  return (
+    <aside className="rounded-[1.75rem] border border-[rgba(47,168,79,0.18)] bg-[linear-gradient(180deg,rgba(47,168,79,0.08),rgba(255,250,244,0.95))] p-4 shadow-[0_18px_45px_rgba(0,0,0,0.05)] lg:sticky lg:top-24">
+      <div className="mb-4 flex items-center justify-between gap-3 px-1">
+        <h3 className="text-lg font-semibold tracking-tight text-black">
+          {title}
+        </h3>
+      </div>
+      <button
+        type="button"
+        onClick={onOpen}
+        className="block w-full rounded-[1.75rem] border border-transparent p-0 text-left transition hover:-translate-y-0.5 hover:border-[#2FA84F]/20 focus:outline-none focus:ring-2 focus:ring-[#2FA84F]/30"
+      >
+        <PhoneFrame title={title} description={description} media={media} />
+      </button>
+    </aside>
+  )
+}
 
-        <div className="grid gap-6">
-          {menuSections.map((section) => (
-            <section
-              key={section.id}
-              id={section.id}
-              className="scroll-mt-24 rounded-[2rem] border border-black/10 bg-white/[0.82] p-8 shadow-[0_18px_50px_rgba(0,0,0,0.06)] backdrop-blur sm:p-10"
-            >
-              <GreenDotHeading title={section.title} />
-              <p className="mt-5 max-w-3xl text-base leading-7 text-black/70">
-                {section.description}
+export default function MenuPage() {
+  const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
+
+  const activeSection =
+    menuSections.find((section) => section.id === activeSectionId) ?? null
+
+  useEffect(() => {
+    if (!activeSection) {
+      return
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveSectionId(null)
+      }
+    }
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [activeSection])
+
+  return (
+    <>
+      <main className="flex-1 bg-[radial-gradient(circle_at_top,rgba(47,168,79,0.08),transparent_28%),linear-gradient(180deg,#fffaf0_0%,#FFFAF0_100%)]">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
+          <section className="grid gap-6 overflow-hidden rounded-[2rem] border border-black/10 bg-white/80 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.08)] backdrop-blur sm:p-10 lg:grid-cols-[1.3fr_0.7fr]">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#2F6F3E]">
+                Ανάλυση Menu
+              </p>
+              <h1 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight text-black sm:text-5xl">
+                Περιήγηση στις βασικές ενότητες της εφαρμογής
+              </h1>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-black/[0.68] sm:text-lg">
+                Η σελίδα αυτή συγκεντρώνει τις βασικές πληροφορίες του menu, ώστε να
+                εντοπίζετε γρήγορα τις κύριες οθόνες, τα φίλτρα αναζήτησης και τις
+                διαθέσιμες ενέργειες.
               </p>
 
-              <div className="mt-8 grid gap-4 lg:grid-cols-2">
-                {section.blocks.map((block, index) => (
-                  <article
-                    key={`${section.id}-${index}`}
-                    className="rounded-[1.5rem] border border-[rgba(0,0,0,0.08)] bg-[#fffaf4] p-5"
+              <div className="mt-8 flex flex-wrap gap-3">
+                {menuSections.map((section) => (
+                  <a
+                    key={section.id}
+                    href={`#${section.id}`}
+                    className="rounded-full border border-[#2FA84F]/20 bg-[rgba(47,168,79,0.08)] px-4 py-2 text-sm font-medium text-[#225E34] transition hover:border-[#2FA84F]/40 hover:bg-[rgba(47,168,79,0.14)]"
                   >
-                    {block.title ? (
-                      <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-black/60">
-                        {block.title}
-                      </h3>
-                    ) : null}
-
-                    {block.items?.length ? (
-                      <ul className="mt-4 space-y-2 text-sm leading-6 text-black/[0.72] sm:text-[15px]">
-                        {block.items.map((item) => (
-                          <li key={item} className="flex gap-3">
-                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2FA84F]" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : null}
-
-                    {block.note ? (
-                      <p className="mt-4 text-sm font-medium leading-6 text-[#225E34] sm:text-[15px]">
-                        {block.note}
-                      </p>
-                    ) : null}
-                  </article>
+                    {section.title}
+                  </a>
                 ))}
               </div>
-            </section>
-          ))}
-        </div>
+            </div>
 
-        <section className="rounded-[2rem] border border-black/10 bg-black px-8 py-9 text-[#FFFAF0] shadow-[0_24px_60px_rgba(0,0,0,0.16)] sm:px-10">
-          <h2 className="text-2xl font-semibold tracking-tight">
-            Κάτω Μενού Πλοήγησης
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-[rgba(255,250,240,0.72)] sm:text-base">
-            Από το κάτω μενού μπορείτε να μεταβείτε γρήγορα στις βασικές οθόνες της εφαρμογής.
-          </p>
-          <ul className="mt-6 grid gap-3 text-sm leading-6 text-[rgba(255,250,240,0.88)] sm:grid-cols-2 sm:text-[15px]">
-            {bottomNavigation.map((item) => (
-              <li
-                key={item}
-                className="rounded-[1.25rem] border border-white/10 bg-white/[0.06] px-4 py-3"
+            <div className="relative flex min-h-[260px] items-center justify-center rounded-[1.75rem] border border-[rgba(47,168,79,0.18)] bg-[linear-gradient(160deg,rgba(47,168,79,0.18),rgba(255,255,255,0.88)_58%,rgba(248,242,227,0.96)_100%)] p-8">
+              <div className="absolute inset-6 rounded-[1.5rem] border border-white/70" />
+              <div className="relative flex w-full max-w-xs flex-col items-center rounded-[1.75rem] border border-black/10 bg-white/[0.85] px-6 py-8 text-center shadow-[0_20px_50px_rgba(0,0,0,0.08)]">
+                <Image
+                  src="/logo.png"
+                  alt="Colai Manual"
+                  width={112}
+                  height={112}
+                  priority
+                  className="h-24 w-24 rounded-[1.75rem] border border-black/10 bg-white p-3 shadow-[0_14px_34px_rgba(0,0,0,0.08)]"
+                />
+                <p className="mt-5 text-sm font-semibold uppercase tracking-[0.24em] text-[#2F6F3E]">
+                  Quick Access
+                </p>
+                <p className="mt-3 text-sm leading-6 text-black/[0.65]">
+                  Αναφορά για dashboard, παραγγελίες, ημερολόγιο WC, αιτήματα και ρυθμίσεις.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <div className="grid gap-6">
+            {menuSections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-24 rounded-[2rem] border border-black/10 bg-white/[0.82] p-8 shadow-[0_18px_50px_rgba(0,0,0,0.06)] backdrop-blur sm:p-10"
               >
-                {item}
-              </li>
+                <GreenDotHeading title={section.title} />
+                <p className="mt-5 max-w-3xl text-base leading-7 text-black/70">
+                  {section.description}
+                </p>
+
+                <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.95fr)] lg:items-start">
+                  <div className="grid gap-4 sm:grid-cols-2">
+                    {section.blocks.map((block, index) => (
+                      <article
+                        key={`${section.id}-${index}`}
+                        className="rounded-[1.5rem] border border-[rgba(0,0,0,0.08)] bg-[#fffaf4] p-5"
+                      >
+                        {block.title ? (
+                          <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-black/60">
+                            {block.title}
+                          </h3>
+                        ) : null}
+
+                        {block.items?.length ? (
+                          <ul className="mt-4 space-y-2 text-sm leading-6 text-black/[0.72] sm:text-[15px]">
+                            {block.items.map((item) => (
+                              <li key={item} className="flex gap-3">
+                                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2FA84F]" />
+                                <span>{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        ) : null}
+
+                        {block.note ? (
+                          <p className="mt-4 text-sm font-medium leading-6 text-[#225E34] sm:text-[15px]">
+                            {block.note}
+                          </p>
+                        ) : null}
+                      </article>
+                    ))}
+                  </div>
+
+                  <DemoPlaceholder
+                    title={section.title}
+                    description={section.description}
+                    media={section.media}
+                    onOpen={() => setActiveSectionId(section.id)}
+                  />
+                </div>
+              </section>
             ))}
-          </ul>
-        </section>
-      </div>
-    </main>
+          </div>
+
+          <section className="rounded-[2rem] border border-black/10 bg-black px-8 py-9 text-[#FFFAF0] shadow-[0_24px_60px_rgba(0,0,0,0.16)] sm:px-10">
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Κάτω Μενού Πλοήγησης
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-[rgba(255,250,240,0.72)] sm:text-base">
+              Από το κάτω μενού μπορείτε να μεταβείτε γρήγορα στις βασικές οθόνες της εφαρμογής.
+            </p>
+            <ul className="mt-6 grid gap-3 text-sm leading-6 text-[rgba(255,250,240,0.88)] sm:grid-cols-2 sm:text-[15px]">
+              {bottomNavigation.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-[1.25rem] border border-white/10 bg-white/[0.06] px-4 py-3"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </main>
+
+      {activeSection ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 sm:p-6"
+          onClick={() => setActiveSectionId(null)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="demo-modal-title"
+            className="relative w-full max-w-5xl rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,#fffdf8_0%,#f7efdf_100%)] p-6 shadow-[0_30px_120px_rgba(0,0,0,0.28)] sm:p-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setActiveSectionId(null)}
+              className="absolute right-4 top-4 rounded-full border border-black/10 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-black/60 transition hover:bg-white"
+            >
+              Close
+            </button>
+
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2F6F3E]">
+              Demo Modal
+            </p>
+            <h2
+              id="demo-modal-title"
+              className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight text-black sm:text-4xl"
+            >
+              {activeSection.title}
+            </h2>
+        
+            <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,0.75fr)_minmax(360px,1.25fr)] lg:items-center">
+              <div className="rounded-[1.5rem] border border-black/8 bg-white/72 p-5">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-black/55">
+                  Περιγραφή
+                </p>
+                <p className="mt-4 text-base leading-7 text-black/68">
+                  {activeSection.description}
+                </p>
+              </div>
+
+              <PhoneFrame
+                title={activeSection.title}
+                description={activeSection.description}
+                media={activeSection.media}
+                large
+              />
+            </div>
+          </div>
+        </div>
+      ) : null}
+    </>
   )
 }

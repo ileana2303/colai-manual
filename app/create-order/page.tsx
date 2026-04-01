@@ -363,7 +363,7 @@ function DetailCard({ block }: { block: DetailBlock }) {
 
 export default function CreateOrderPage() {
   return (
-    <main className="flex-1 bg-[radial-gradient(circle_at_top,rgba(44,123,229,0.08),transparent_28%),linear-gradient(180deg,#fffaf0_0%,#eef4fb_100%)]">
+    <main className="flex-1 bg-[radial-gradient(circle_at_top,rgba(44,123,229,0.08),transparent_28%),linear-gradient(180deg,#fffaf0_0%,#FFFAF0_100%)]">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
         <section className="grid gap-6 overflow-hidden rounded-[2rem] border border-black/10 bg-white/80 p-8 shadow-[0_24px_80px_rgba(0,0,0,0.08)] backdrop-blur sm:p-10 lg:grid-cols-[1.3fr_0.7fr]">
           <div>

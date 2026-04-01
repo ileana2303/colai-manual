@@ -54,7 +54,7 @@ const navLinks: NavLink[] = [
 
 function getNavLinkClassName(isActive: boolean) {
   return `group flex items-center justify-between rounded-[1.5rem] px-4 py-3 text-left transition ${isActive
-    ? "bg-black text-[#FFFAF0] shadow-[0_20px_40px_rgba(0,0,0,0.14)]"
+    ? "bg-black text-[#FFFAF0] shadow-[0_10px_24px_rgba(0,0,0,0.10)]"
     : "text-black/72 hover:bg-black/5 hover:text-black"
     }`
 }
@@ -62,10 +62,6 @@ function getNavLinkClassName(isActive: boolean) {
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
-  const isContactPage = pathname.startsWith("/contact-us")
-  const cta = isContactPage
-    ? { href: "/", label: "Back To Home" }
-    : { href: "/contact-us", label: "Start Your Project" }
 
   useEffect(() => {
     setIsMobileMenuOpen(false)
@@ -91,15 +87,11 @@ export default function Navbar() {
       return pathname === "/"
     }
 
-    if (href === "/contact-us") {
-      return isContactPage
-    }
-
     return pathname === href || pathname.startsWith(`${href}/`)
   }
 
   const navContent = (
-    <>
+    <div className="flex h-full min-h-0 flex-col">
       <Link href="/" className="flex items-center gap-3" onClick={closeMobileMenu}>
         <Image
           src="/logo.png"
@@ -119,9 +111,8 @@ export default function Navbar() {
         </div>
       </Link>
 
-      <div className="mt-10 rounded-[2rem] p-3">
-    
-        <nav className="mt-3 flex flex-col gap-1">
+      <div className="mt-8 flex min-h-0 flex-1 flex-col rounded-[2rem] p-2 sm:p-3">
+        <nav className="mt-3 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1">
           {navLinks.map((link) => {
             const isActive = isLinkActive(link.href)
 
@@ -160,13 +151,23 @@ export default function Navbar() {
             )
           })}
         </nav>
+
+        <a
+          href="https://mobileapp.amsaworks.gr"
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-[#FFFAF0]/25 bg-[#27BDAE] px-4 py-3 text-sm font-semibold text-white transition hover:bg-transparent hover:text-[#27BDAE] hover:border-2 hover:border-[#27BDAE]"
+          onClick={closeMobileMenu}
+        >
+          Go to Colai APP
+        </a>
       </div>
-    </>
+    </div>
   )
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-black/10 bg-[#FFFAF0]/95 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-50 border-b border-black/10 bg-[#FFFAF0] md:hidden">
         <div className="flex items-center justify-between gap-4 px-4 py-3 sm:px-6">
           <Link href="/" className="flex min-w-0 items-center gap-3">
             <Image
@@ -211,8 +212,8 @@ export default function Navbar() {
         </div>
       </header>
 
-      <aside className="hidden border-r border-black/10 bg-[#F6EEDB] lg:flex lg:w-[18rem] lg:shrink-0 xl:w-[19.5rem]">
-        <div className="sticky top-0 flex h-screen w-full flex-col px-5 py-7 xl:px-6 xl:py-8">
+      <aside className="hidden border-r border-black/10 bg-[#FFFAF0] md:flex md:min-h-dvh md:w-[15.5rem] md:shrink-0 lg:w-[18rem] xl:w-[19.5rem]">
+        <div className="sticky top-0 flex h-dvh w-full flex-col px-4 py-6 md:px-4 lg:px-5 lg:py-7 xl:px-6 xl:py-8">
           {navContent}
         </div>
       </aside>
@@ -221,14 +222,14 @@ export default function Navbar() {
         <>
           <button
             type="button"
-            className="fixed inset-0 z-40 bg-black/30 lg:hidden"
+            className="fixed inset-0 z-40 bg-black/30 md:hidden"
             aria-label="Close navigation menu"
             onClick={closeMobileMenu}
           />
 
           <div
             id="mobile-navigation"
-            className="fixed inset-y-0 left-0 z-50 flex w-[19rem] max-w-[calc(100vw-1.5rem)] flex-col border-r border-black/10 bg-[#F6EEDB] p-5 shadow-[0_24px_64px_rgba(0,0,0,0.18)] lg:hidden"
+            className="fixed inset-y-0 left-0 z-50 flex h-dvh w-full max-w-[22rem] flex-col border-r border-black/10 bg-[#FFFAF0] p-4 shadow-[0_24px_64px_rgba(0,0,0,0.18)] sm:max-w-[24rem] sm:p-5 md:hidden"
           >
             {navContent}
           </div>

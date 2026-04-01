@@ -1,26 +1,22 @@
 "use client"
 
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import Container from "./layout/container"
 
 export default function Footer() {
   const pathname = usePathname()
 
-  if (pathname === "/" || pathname.startsWith("/contact-us")) {
+  if (pathname === "/") {
     return null
   }
 
   return (
-    <footer className="py-20">
+    <footer>
       <Container>
-
-        <div className="mt-16 flex justify-between border-t pt-8 text-sm text-gray-400">
+        <div className="flex flex-col gap-3 border-t border-black/10 py-6 text-sm text-black/55 sm:flex-row sm:items-center sm:justify-between">
           <span>
             © {new Date().getFullYear()}{" "}
-
             Colai. All rights reserved.
-
           </span>
           <span>
             {" "}Developed by{" "}
