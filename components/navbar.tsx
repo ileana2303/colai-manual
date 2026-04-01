@@ -153,13 +153,23 @@ export default function Navbar() {
         </nav>
 
         <a
+          href="https://docs.google.com/document/d/1lsCNwR1qWo6IUosid1MpQjKDl-WX-O-3MtNq1dEDko0/edit?tab=t.0#heading=h.llaqkqnew5ai"
+          target="_blank"
+          rel="noreferrer"
+          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-transparent border-2 border-[#27BDAE] text-black px-4 py-3 text-sm font-semibold transition hover:bg-[#27BDAE] hover:text-white hover:border-2 hover:border-[#27BDAE]"
+          onClick={closeMobileMenu}
+        >
+          Documentation :: Open Docs
+        </a>
+
+        <a
           href="https://mobileapp.amsaworks.gr"
           target="_blank"
           rel="noreferrer"
           className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-[#FFFAF0]/25 bg-[#27BDAE] px-4 py-3 text-sm font-semibold text-white transition hover:bg-transparent hover:text-[#27BDAE] hover:border-2 hover:border-[#27BDAE]"
           onClick={closeMobileMenu}
         >
-          Go to Colai APP
+          Open Colai APP
         </a>
       </div>
     </div>

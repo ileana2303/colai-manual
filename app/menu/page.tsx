@@ -250,13 +250,8 @@ function VideoMedia({
   onError: () => void
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null)
-  const [hasMounted, setHasMounted] = useState(false)
   const [hasStarted, setHasStarted] = useState(false)
   const [hasEnded, setHasEnded] = useState(false)
-
-  useEffect(() => {
-    setHasMounted(true)
-  }, [])
 
   const playFromStart = () => {
     const video = videoRef.current
@@ -276,7 +271,6 @@ function VideoMedia({
       <video
         key={src}
         ref={videoRef}
-        autoPlay={hasMounted}
         muted
         playsInline
         poster={poster}
@@ -364,23 +358,13 @@ function DemoPlaceholder({
 }
 
 export default function MenuPage() {
-  const [hasMounted, setHasMounted] = useState(false)
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
-  const [activeNavSectionId, setActiveNavSectionId] = useState("")
+  const [activeNavSectionId, setActiveNavSectionId] = useState(menuSections[0]?.id ?? "")
 
   const activeSection =
     menuSections.find((section) => section.id === activeSectionId) ?? null
 
   useEffect(() => {
-    setHasMounted(true)
-    setActiveNavSectionId(menuSections[0]?.id ?? "")
-  }, [])
-
-  useEffect(() => {
-    if (!hasMounted) {
-      return
-    }
-
     const sectionElements = menuSections
       .map((section) => document.getElementById(section.id))
       .filter((element): element is HTMLElement => element !== null)
@@ -410,7 +394,7 @@ export default function MenuPage() {
     return () => {
       observer.disconnect()
     }
-  }, [hasMounted])
+  }, [])
 
   useEffect(() => {
     if (!activeSection) {
@@ -487,8 +471,8 @@ export default function MenuPage() {
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    aria-current={hasMounted && activeNavSectionId === section.id ? "true" : undefined}
-                    className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium text-[#225E34] transition ${hasMounted && activeNavSectionId === section.id
+                    aria-current={activeNavSectionId === section.id ? "true" : undefined}
+                    className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium text-[#225E34] transition ${activeNavSectionId === section.id
                       ? "border-[#2FA84F]/40 bg-[rgba(47,168,79,0.14)]"
                       : "border-[#2FA84F]/20 bg-[rgba(47,168,79,0.08)] hover:border-[#2FA84F]/40 hover:bg-[rgba(47,168,79,0.14)]"
                       }`}
