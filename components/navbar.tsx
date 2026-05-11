@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import { Apple, BookOpenText, Play } from "lucide-react"
 
 type NavSubItem = {
   href: string
@@ -33,7 +34,7 @@ const navLinks: NavLink[] = [
   },
   {
     href: "/create-order",
-    label: "Δημιουργία Νέας Παραγγελίας",
+    label: "New Order",
     description: "Workflow",
     subItems: [
       { href: "/create-order#gnomatefseis", label: "Γνωματεύσεις" },
@@ -156,21 +157,36 @@ export default function Navbar() {
           href="https://docs.google.com/document/d/1lsCNwR1qWo6IUosid1MpQjKDl-WX-O-3MtNq1dEDko0/edit?tab=t.0#heading=h.llaqkqnew5ai"
           target="_blank"
           rel="noreferrer"
-          className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-transparent border-2 border-[#27BDAE] text-black px-4 py-3 text-sm font-semibold transition hover:bg-[#27BDAE] hover:text-white hover:border-2 hover:border-[#27BDAE]"
+          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-[#27BDAE] bg-transparent px-4 py-3 text-sm font-semibold text-black transition hover:border-[#27BDAE] hover:bg-[#27BDAE] hover:text-white"
           onClick={closeMobileMenu}
         >
-          Documentation :: Open Docs
+          <BookOpenText aria-hidden="true" className="h-4 w-4" />
+          Open Docs
         </a>
 
-        <a
-          href="https://mobileapp.amsaworks.gr"
-          target="_blank"
-          rel="noreferrer"
-          className="mt-4 inline-flex w-full items-center justify-center rounded-full border border-[#FFFAF0]/25 bg-[#27BDAE] px-4 py-3 text-sm font-semibold text-white transition hover:bg-transparent hover:text-[#27BDAE] hover:border-2 hover:border-[#27BDAE]"
-          onClick={closeMobileMenu}
-        >
-          Open Colai APP
-        </a>
+        <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-1 xl:grid-cols-2">
+          <a
+            href="https://apps.apple.com/es/app/colai/id6764851329?l=en-GB"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border-2 border-black bg-black px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-transparent hover:text-black"
+            onClick={closeMobileMenu}
+          >
+            <Apple aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
+            App Store
+          </a>
+
+          <a
+            href="https://play.google.com/store/apps/details?id=pro.colai.mobile"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border-2 border-[#27BDAE] bg-[#27BDAE] px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-transparent hover:text-[#27BDAE]"
+            onClick={closeMobileMenu}
+          >
+            <Play aria-hidden="true" className="h-3.5 w-3.5 shrink-0 fill-current" />
+            Google Play
+          </a>
+        </div>
       </div>
     </div>
   )

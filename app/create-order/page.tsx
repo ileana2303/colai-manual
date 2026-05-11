@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { useEffect, useState } from "react"
 
 type DetailBlock = {
   title?: string
@@ -321,6 +324,25 @@ const usefulTips = [
   "Αν κάτι δεν αποθηκεύεται, ελέγξτε τα κόκκινα πεδία",
 ]
 
+const createOrderNavSections = [
+  ...eopyySteps.map((step) => ({
+    id: step.id,
+    title: step.title,
+  })),
+  {
+    id: "ektos-eopyy",
+    title: "Εκτός ΕΟΠΥΥ",
+  },
+  {
+    id: "apothikefsi-paraggelias",
+    title: "Αποθήκευση",
+  },
+  {
+    id: "xrisimes-symvoules",
+    title: "Συμβουλές",
+  },
+]
+
 function BlueDotHeading({ title }: { title: string }) {
   return (
     <div className="flex items-center gap-3">
@@ -362,6 +384,40 @@ function DetailCard({ block }: { block: DetailBlock }) {
 }
 
 export default function CreateOrderPage() {
+  const [activeNavSectionId, setActiveNavSectionId] = useState(createOrderNavSections[0]?.id ?? "")
+
+  useEffect(() => {
+    const sectionElements = createOrderNavSections
+      .map((section) => document.getElementById(section.id))
+      .filter((element): element is HTMLElement => element !== null)
+
+    if (!sectionElements.length) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+
+        if (visibleEntries.length > 0) {
+          setActiveNavSectionId(visibleEntries[0].target.id)
+        }
+      },
+      {
+        rootMargin: "-18% 0px -55% 0px",
+        threshold: [0.2, 0.4, 0.6],
+      }
+    )
+
+    sectionElements.forEach((element) => observer.observe(element))
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
   return (
     <main className="flex-1 bg-[radial-gradient(circle_at_top,rgba(44,123,229,0.08),transparent_28%),linear-gradient(180deg,#fffaf0_0%,#FFFAF0_100%)]">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-12 sm:px-8 lg:px-12 lg:py-16">
@@ -379,17 +435,6 @@ export default function CreateOrderPage() {
               μαζί με τους κανόνες αποθήκευσης και βασικές συμβουλές ελέγχου.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              {eopyySteps.map((step) => (
-                <a
-                  key={step.id}
-                  href={`#${step.id}`}
-                  className="rounded-full border border-[#2C7BE5]/20 bg-[rgba(44,123,229,0.08)] px-4 py-2 text-sm font-medium text-[#1F5FAF] transition hover:border-[#2C7BE5]/40 hover:bg-[rgba(44,123,229,0.14)]"
-                >
-                  {step.title}
-                </a>
-              ))}
-            </div>
           </div>
 
           <div className="relative flex min-h-[260px] items-center justify-center rounded-[1.75rem] border border-[rgba(44,123,229,0.18)] bg-[linear-gradient(160deg,rgba(44,123,229,0.18),rgba(255,255,255,0.88)_58%,rgba(238,244,251,0.96)_100%)] p-8">
@@ -412,6 +457,29 @@ export default function CreateOrderPage() {
             </div>
           </div>
         </section>
+
+        <nav className="sticky top-4 z-30 rounded-full border border-black/10 bg-white px-4 py-4 shadow-[0_20px_60px_rgba(0,0,0,0.08)] backdrop-blur sm:px-6">
+          <div className="flex items-center gap-4 pb-1">
+            <span className="shrink-0 rounded-full bg-[#173E73] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#FFFAF0]">
+              Order Nav
+            </span>
+            <div className="flex flex-1 items-center justify-start gap-3 overflow-x-auto">
+              {createOrderNavSections.map((section) => (
+                <a
+                  key={section.id}
+                  href={`#${section.id}`}
+                  aria-current={activeNavSectionId === section.id ? "true" : undefined}
+                  className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-medium text-[#1F5FAF] transition ${activeNavSectionId === section.id
+                    ? "border-[#2C7BE5]/40 bg-[rgba(44,123,229,0.14)]"
+                    : "border-[#2C7BE5]/20 bg-[rgba(44,123,229,0.08)] hover:border-[#2C7BE5]/40 hover:bg-[rgba(44,123,229,0.14)]"
+                    }`}
+                >
+                  {section.title}
+                </a>
+              ))}
+            </div>
+          </div>
+        </nav>
 
         <section className="rounded-[2rem] border border-black/10 bg-white/[0.82] p-8 shadow-[0_18px_50px_rgba(0,0,0,0.06)] backdrop-blur sm:p-10">
           <BlueDotHeading title="1. Δημιουργία Νέας Παραγγελίας" />
