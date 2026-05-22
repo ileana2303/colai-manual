@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
-import { Apple, BookOpenText, Play } from "lucide-react"
+import { BookOpenText } from "lucide-react"
 
 type NavSubItem = {
   href: string
@@ -50,6 +50,23 @@ const navLinks: NavLink[] = [
       { href: "/create-order#apothikefsi-paraggelias", label: "Αποθήκευση Παραγγελίας" },
       { href: "/create-order#xrisimes-symvoules", label: "Χρήσιμες Συμβουλές" },
     ],
+  },
+]
+
+const appDownloadButtons = [
+  {
+    href: "https://apps.apple.com/us/app/colai/id6764851329",
+    src: "/download-badges/apple-store.png",
+    alt: "Download on the App Store",
+    width: 120,
+    height: 40,
+  },
+  {
+    href: "https://play.google.com/store/apps/details?id=pro.colai.mobile",
+    src: "/download-badges/google-play-dark.png",
+    alt: "Get it on Google Play",
+    width: 120,
+    height: 40,
   },
 ]
 
@@ -113,7 +130,7 @@ export default function Navbar() {
       </Link>
 
       <div className="mt-8 flex min-h-0 flex-1 flex-col rounded-[2rem] p-2 sm:p-3">
-        <nav className="mt-3 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1">
+        <nav className="subtle-scrollbar mt-3 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1">
           {navLinks.map((link) => {
             const isActive = isLinkActive(link.href)
 
@@ -164,28 +181,25 @@ export default function Navbar() {
           Open Docs
         </a>
 
-        <div className="mt-3 grid grid-cols-2 gap-2 md:grid-cols-1 xl:grid-cols-2">
-          <a
-            href="https://apps.apple.com/es/app/colai/id6764851329?l=en-GB"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border-2 border-black bg-black px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-transparent hover:text-black"
-            onClick={closeMobileMenu}
-          >
-            <Apple aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
-            App Store
-          </a>
-
-          <a
-            href="https://play.google.com/store/apps/details?id=pro.colai.mobile"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex min-h-9 items-center justify-center gap-1.5 rounded-full border-2 border-[#27BDAE] bg-[#27BDAE] px-2.5 py-1.5 text-[11px] font-semibold text-white transition hover:bg-transparent hover:text-[#27BDAE]"
-            onClick={closeMobileMenu}
-          >
-            <Play aria-hidden="true" className="h-3.5 w-3.5 shrink-0 fill-current" />
-            Google Play
-          </a>
+        <div className="mt-3 flex w-full items-center justify-center gap-1.5 lg:gap-2">
+          {appDownloadButtons.map((button) => (
+            <a
+              key={button.href}
+              href={button.href}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-w-0 flex-1 transition duration-200 hover:-translate-y-0.5 hover:opacity-90 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#27BDAE]/35"
+              onClick={closeMobileMenu}
+            >
+              <Image
+                src={button.src}
+                alt={button.alt}
+                width={button.width}
+                height={button.height}
+                className="h-auto w-full"
+              />
+            </a>
+          ))}
         </div>
       </div>
     </div>

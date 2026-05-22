@@ -463,7 +463,7 @@ export default function CreateOrderPage() {
             <span className="shrink-0 rounded-full bg-[#173E73] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#FFFAF0]">
               Order Nav
             </span>
-            <div className="flex flex-1 items-center justify-start gap-3 overflow-x-auto">
+            <div className="subtle-scrollbar flex flex-1 items-center justify-start gap-3 overflow-x-auto">
               {createOrderNavSections.map((section) => (
                 <a
                   key={section.id}
