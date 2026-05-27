@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
+import { PhoneFrame } from "@/components/phone-frame"
 
 type ContentBlock = {
   title?: string
@@ -307,7 +308,7 @@ function VideoMedia({
   )
 }
 
-function PhoneFrame({
+function MenuPhoneFrame({
   title,
   description,
   media,
@@ -319,17 +320,9 @@ function PhoneFrame({
   large?: boolean
 }) {
   return (
-    <div className={`mx-auto w-full ${large ? "max-w-[26rem]" : "max-w-none"}`}>
-      <div className="rounded-[3rem] bg-[#151515] p-[0.45rem] shadow-[0_30px_80px_rgba(0,0,0,0.24)]">
-        <div className="relative overflow-hidden rounded-[2.55rem] border border-white/10 bg-[#111111]">
-          <div className="absolute left-1/2 top-3 z-10 h-6 w-28 -translate-x-1/2 rounded-full bg-black/85" />
-          <div className="pointer-events-none absolute inset-[0.35rem] rounded-[2.2rem] border border-white/10" />
-          <div className="aspect-[390/844] overflow-hidden">
-            <SectionMedia media={media} title={title} description={description} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <PhoneFrame large={large}>
+      <SectionMedia media={media} title={title} description={description} />
+    </PhoneFrame>
   )
 }
 
@@ -351,7 +344,7 @@ function DemoPlaceholder({
         onClick={onOpen}
         className="block w-full rounded-[1.75rem] p-0 text-left transition hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#2FA84F]/30"
       >
-        <PhoneFrame title={title} description={description} media={media} />
+        <MenuPhoneFrame title={title} description={description} media={media} />
       </button>
     </aside>
   )
@@ -573,7 +566,7 @@ export default function MenuPage() {
             </h2>
 
             <div className="mt-8">
-              <PhoneFrame
+              <MenuPhoneFrame
                 title={activeSection.title}
                 description={activeSection.description}
                 media={activeSection.media}

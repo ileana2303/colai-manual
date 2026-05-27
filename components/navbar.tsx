@@ -153,14 +153,19 @@ export default function Navbar() {
 
                 {link.subItems?.length ? (
                   <div className="ml-4 flex flex-col gap-1 border-l border-black/10 pl-4">
-                    {link.subItems.map((subItem) => (
+                    {link.subItems.map((subItem, subItemIndex) => (
                       <Link
                         key={subItem.href}
                         href={subItem.href}
-                        className="rounded-2xl px-3 py-2 text-sm text-black/60 transition hover:bg-black/5 hover:text-black"
+                        className="inline-flex items-start gap-2 rounded-2xl px-3 py-2 text-sm text-black/60 transition hover:bg-black/5 hover:text-black"
                         onClick={closeMobileMenu}
                       >
-                        {subItem.label}
+                        {link.href === "/create-order" ? (
+                          <span className="mt-0.5 inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white/70 px-1.5 text-[11px] font-semibold tabular-nums text-black/55">
+                            {subItemIndex + 1}
+                          </span>
+                        ) : null}
+                        <span>{subItem.label}</span>
                       </Link>
                     ))}
                   </div>
