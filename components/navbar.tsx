@@ -11,11 +11,19 @@ type NavSubItem = {
   label: string
 }
 
+type NavSubItemSection = {
+  label?: string
+  numbered?: boolean
+  tone?: "blue" | "teal"
+  items: NavSubItem[]
+}
+
 type NavLink = {
   href: string
   label: string
   description: string
   subItems?: NavSubItem[]
+  subItemSections?: NavSubItemSection[]
 }
 
 const navLinks: NavLink[] = [
@@ -36,19 +44,30 @@ const navLinks: NavLink[] = [
     href: "/create-order",
     label: "New Order",
     description: "Workflow",
-    subItems: [
-      { href: "/create-order#gnomatefseis", label: "Γνωματεύσεις" },
-      { href: "/create-order#aftomati-symplirosi-asthenis", label: "Αυτόματη Συμπλήρωση - Ασθενής" },
-      { href: "/create-order#stoixeia-iatrou", label: "Στοιχεία Ιατρού" },
-      { href: "/create-order#stoixeia-syntagis", label: "Στοιχεία Συνταγής" },
-      { href: "/create-order#ylika", label: "Υλικά" },
-      { href: "/create-order#plafon", label: "Πλαφόν" },
-      { href: "/create-order#symmetoxi", label: "Συμμετοχή" },
-      { href: "/create-order#synaineis", label: "Συναίνεση" },
-      { href: "/create-order#touchdown", label: "Touchdown" },
-      { href: "/create-order#ektos-eopyy", label: "Παραγγελία Εκτός ΕΟΠΥΥ" },
-      { href: "/create-order#apothikefsi-paraggelias", label: "Αποθήκευση Παραγγελίας" },
-      { href: "/create-order#xrisimes-symvoules", label: "Χρήσιμες Συμβουλές" },
+    subItemSections: [
+      {
+        label: "Παραγγελίες ΕΟΠΥΥ",
+        numbered: true,
+        items: [
+          { href: "/create-order#gnomatefseis", label: "Γνωματεύσεις" },
+          { href: "/create-order#aftomati-symplirosi-asthenis", label: "Στοιχεία Ασθενή" },
+          { href: "/create-order#stoixeia-iatrou", label: "Στοιχεία Ιατρού" },
+          { href: "/create-order#stoixeia-syntagis", label: "Στοιχεία Συνταγής" },
+          { href: "/create-order#ylika", label: "Υλικά" },
+          { href: "/create-order#symmetoxi", label: "Συμμετοχή" },
+          { href: "/create-order#synaineis", label: "Συναίνεση" },
+          { href: "/create-order#touchdown", label: "Touchdown" },
+        ],
+      },
+      {
+        label: "Εκτός ΕΟΠΥΥ",
+        tone: "teal",
+        items: [
+          { href: "/create-order#ektos-eopyy", label: "Παραγγελία Εκτός ΕΟΠΥΥ" },
+          { href: "/create-order#apothikefsi-paraggelias", label: "Αποθήκευση Παραγγελίας" },
+          { href: "/create-order#xrisimes-symvoules", label: "Χρήσιμες Συμβουλές" },
+        ],
+      },
     ],
   },
 ]
@@ -75,6 +94,18 @@ function getNavLinkClassName(isActive: boolean) {
     ? "bg-black text-[#FFFAF0] shadow-[0_10px_24px_rgba(0,0,0,0.10)]"
     : "text-black/72 hover:bg-black/5 hover:text-black"
     }`
+}
+
+function getNavSubItemSections(link: NavLink) {
+  if (link.subItemSections?.length) {
+    return link.subItemSections
+  }
+
+  if (link.subItems?.length) {
+    return [{ items: link.subItems }]
+  }
+
+  return []
 }
 
 export default function Navbar() {
@@ -133,6 +164,7 @@ export default function Navbar() {
         <nav className="subtle-scrollbar mt-3 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto pr-1">
           {navLinks.map((link) => {
             const isActive = isLinkActive(link.href)
+            const subItemSections = getNavSubItemSections(link)
 
             return (
               <div key={link.href} className="space-y-2">
@@ -151,23 +183,49 @@ export default function Navbar() {
                   </span>
                 </Link>
 
-                {link.subItems?.length ? (
-                  <div className="ml-4 flex flex-col gap-1 border-l border-black/10 pl-4">
-                    {link.subItems.map((subItem, subItemIndex) => (
-                      <Link
-                        key={subItem.href}
-                        href={subItem.href}
-                        className="inline-flex items-start gap-2 rounded-2xl px-3 py-2 text-sm text-black/60 transition hover:bg-black/5 hover:text-black"
-                        onClick={closeMobileMenu}
-                      >
-                        {link.href === "/create-order" ? (
-                          <span className="mt-0.5 inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white/70 px-1.5 text-[11px] font-semibold tabular-nums text-black/55">
-                            {subItemIndex + 1}
-                          </span>
-                        ) : null}
-                        <span>{subItem.label}</span>
-                      </Link>
-                    ))}
+                {subItemSections.length ? (
+                  <div className="ml-4 flex flex-col gap-3 border-l border-black/10 pl-4">
+                    {subItemSections.map((section, sectionIndex) => {
+                      const sectionClassName = section.label
+                        ? section.tone === "teal"
+                          ? "border-[#27BDAE]/30 bg-[#27BDAE]/[0.08]"
+                          : "border-[#2C7BE5]/15 bg-white/45"
+                        : "border-transparent"
+                      const sectionHeadingClassName = section.tone === "teal"
+                        ? "text-[#087F73]"
+                        : "text-[#1F5FAF]"
+
+                      return (
+                        <div
+                          key={section.label ?? `${link.href}-section-${sectionIndex}`}
+                          className={`rounded-[1.25rem] border p-1.5 ${sectionClassName}`}
+                        >
+                          {section.label ? (
+                            <p className={`px-2 pb-1 pt-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] ${sectionHeadingClassName}`}>
+                              {section.label}
+                            </p>
+                          ) : null}
+
+                          <div className="flex flex-col gap-1">
+                            {section.items.map((subItem, subItemIndex) => (
+                              <Link
+                                key={subItem.href}
+                                href={subItem.href}
+                                className="inline-flex items-start gap-2 rounded-2xl px-3 py-2 text-sm text-black/60 transition hover:bg-black/5 hover:text-black"
+                                onClick={closeMobileMenu}
+                              >
+                                {section.numbered ? (
+                                  <span className="mt-0.5 inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white/70 px-1.5 text-[11px] font-semibold tabular-nums text-black/55">
+                                    {subItemIndex + 1}
+                                  </span>
+                                ) : null}
+                                <span>{subItem.label}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )
+                    })}
                   </div>
                 ) : null}
               </div>
