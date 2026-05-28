@@ -7,6 +7,7 @@ import { PhoneFrameImage } from "@/components/phone-frame"
 
 type DetailBlock = {
   title?: string
+  description?: string
   items?: string[]
   note?: string
 }
@@ -33,7 +34,7 @@ type IntroStep = {
   title: string
   description?: string
   items?: string[]
-  image: StepImage
+  image: StepImage | StepImage[]
 }
 
 type OrderStep = {
@@ -50,10 +51,16 @@ const introSteps: IntroStep[] = [
     title: "Είσοδος",
     description: "👉Από Αρχική 🏠 ή Παραγγελίες 📋",
     items: ["→ πατήστε το ➕ για να ξεκινήσετε"],
-    image: {
-      src: "/order/step1-1.png",
-      alt: "Οθόνη εισόδου στη δημιουργία νέας παραγγελίας",
-    },
+    image: [
+      {
+        src: "/order/step1.png",
+        alt: "Οθόνη εισόδου στη δημιουργία νέας παραγγελίας",
+      },
+      {
+        src: "/order/step1-1.png",
+        alt: "Οθόνη εισόδου στη δημιουργία νέας παραγγελίας",
+      },
+    ],
   },
   {
     step: "Βήμα 2",
@@ -97,7 +104,7 @@ const eopyySteps: OrderStep[] = [
         blocks: [
           {
             title: "Βήμα 1.1",
-            note: "➕ Πατήστε το κουμπί για να ανεβάσετε τη γνωμάτευση 📄",
+            note: "➕ Πατήστε το κουμπί για να ανεβάσετε τη γνωμάτευση 📄 και την 2η σελίδα του εντύπου. ",
           },
         ],
       },
@@ -130,7 +137,7 @@ const eopyySteps: OrderStep[] = [
             note: "👉 Στην ενότητα Συμπληρωματικά αρχεία ➕ Πατήστε το κουμπί για να προσθέσετε επιπλέον αρχεία",
           },
           {
-            note: "📎 Χρησιμοποιείται όταν απαιτούνται επιπλέον δικαιολογητικά (π.χ. έντυπο συναίνεσης).",
+            note: "📎 Χρησιμοποιείται όταν απαιτούνται επιπλέον δικαιολογητικά (π.χ. κάρτα ιατρού, φωτογραφία τραύματος ή οποιοδήποτε επιπλέον έγγραφο που αφορά τον ασθενή).",
           },
         ],
       },
@@ -304,12 +311,18 @@ const eopyySteps: OrderStep[] = [
     items: [
       {
         id: "syntagi-stoixeia",
-        title: "Στοιχεία συνταγής",
+        title: "Βήμα 4: Στοιχεία συνταγής",
         blocks: [
           {
             items: ["Barcode συνταγής", "Ημερομηνία συνταγής", "Περίοδο ισχύος (από - έως)", "Κατηγορία παροχής", "Είδος", "Κωδικούς και περιγραφές διάγνωσης (ICD)"],
-            note: "Ελέγξτε την ορθότητα των στοιχείων και προχωρήστε σε διορθώσεις όπου απαιτείται.",
+            note: "Ελέγξτε την ορθότητα των στοιχείων και προχωρήστε σε διορθώσεις όπου απαιτείται. Αν δεν έχει περαστεί αυτόματα το Barcode της συνταγής: 👉 Στο πεδίο Barcode, πατήστε το εικονίδιο 📷 για σάρωση της συνταγής. 👉 Στρέψτε την κάμερα προς το barcode και κρατήστε τη σταθερή για αυτόματη αναγνώριση.",
           },
+        ],
+         media: [
+          { type: "image", src: "/order/step4.png", alt: "Στοιχεία συνταγής" },
+          { type: "image", src: "/order/step4-1.png", alt: "Barcode" },
+          { type: "image", src: "/order/step4-2.png", alt: "Scan" },
+          { type: "image", src: "/order/step4-3.png", alt: "Type" },
         ],
       },
     ],
@@ -329,27 +342,27 @@ const eopyySteps: OrderStep[] = [
             items: ["Κωδικός υλικού", "Περιγραφή", "Ποσότητα"],
             note: "Ελέγξτε ότι τα υλικά και οι ποσότητες είναι σωστά.",
           },
-        ],
-      },
-      {
-        id: "ylika-prosthiki",
-        title: "Προσθήκη Υλικών",
-        blocks: [
           {
             title: "Προσθήκη Υλικών",
-            items: ["Πατήστε το κουμπί (+)", "Πληκτρολογήστε κωδικό ή περιγραφή στο πεδίο αναζήτησης", "Επιλέξτε το επιθυμητό υλικό"],
+            items: [
+              "Πατήστε το κουμπί (+)",
+              "Πληκτρολογήστε κωδικό ή περιγραφή στο πεδίο αναζήτησης",
+              "Επιλέξτε το επιθυμητό υλικό",
+            ],
           },
-        ],
-      },
-      {
-        id: "ylika-tropopoiisi",
-        title: "Τροποποίηση Υλικών",
-        blocks: [
           {
             title: "Τροποποίηση Υλικών",
-            items: ["Μπορείτε να αλλάξετε την ποσότητα κάθε υλικού", "Μπορείτε να προσθέσετε ή να αφαιρέσετε υλικά, εφόσον απαιτείται"],
+            items: [
+              "Μπορείτε να αλλάξετε την ποσότητα κάθε υλικού",
+              "Μπορείτε να προσθέσετε ή να αφαιρέσετε υλικά, εφόσον απαιτείται",
+            ],
             note: "Βεβαιωθείτε ότι τα υλικά συμφωνούν με τη γνωμάτευση πριν προχωρήσετε στο επόμενο βήμα.",
           },
+        ],
+        media: [
+          { type: "image", src: "/order/step5.png", alt: "Υλικά" },
+          { type: "image", src: "/order/step5-1.png", alt: "Προσθήκη Υλικών" },
+          { type: "image", src: "/order/step5-2.png", alt: "Αναζήτηση Υλικών" },
         ],
       },
     ],
@@ -559,6 +572,12 @@ function DetailBlockContent({
         </h3>
       ) : null}
 
+      {block.description ? (
+        <p className="mt-3 text-sm leading-6 text-black/[0.72] sm:text-[15px]">
+          {block.description}
+        </p>
+      ) : null}
+
       {block.items?.length ? (
         <ul className="mt-4 space-y-2 text-sm leading-6 text-black/[0.72] sm:text-[15px]">
           {block.items.map((item) => (
@@ -595,11 +614,15 @@ function getStepMediaItems(media: StepItem["media"]) {
   return Array.isArray(media) ? media : [media]
 }
 
+function getIntroStepImages(image: IntroStep["image"]) {
+  return Array.isArray(image) ? image : [image]
+}
+
 function StepMediaCarousel({
   mediaItems,
   itemId,
 }: {
-  mediaItems: StepMedia[]
+  mediaItems: StepImage[]
   itemId: string
 }) {
   const [activeMediaIndex, setActiveMediaIndex] = useState(0)
@@ -857,38 +880,42 @@ export default function CreateOrderPage() {
 
 
           <div className="mt-8 grid gap-6">
-            {introSteps.map((step) => (
-              <article
-                key={step.title}
-                className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.95fr)] lg:items-start"
-              >
-                <div className="rounded-[1.75rem] border border-[rgba(0,0,0,0.08)] bg-[#fffaf4] p-6 sm:p-7">
-                  <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1F5FAF]">
-                    {step.step}
-                  </p>
-                  <h3 className="mt-3 text-xl font-semibold text-black">
-                    {step.title}
-                  </h3>
-                  {step.description ? (
-                    <p className="mt-3 text-sm leading-6 text-black/[0.7]">
-                      {step.description}
-                    </p>
-                  ) : null}
-                  {step.items?.length ? (
-                    <ul className="mt-4 space-y-2 text-sm leading-6 text-black/[0.72]">
-                      {step.items.map((item) => (
-                        <li key={item} className="flex gap-3">
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2C7BE5]" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </div>
+            {introSteps.map((step) => {
+              const imageItems = getIntroStepImages(step.image)
 
-                <PhoneFrameImage src={step.image.src} alt={step.image.alt} />
-              </article>
-            ))}
+              return (
+                <article
+                  key={step.title}
+                  className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.95fr)] lg:items-start"
+                >
+                  <div className="rounded-[1.75rem] border border-[rgba(0,0,0,0.08)] bg-[#fffaf4] p-6 sm:p-7">
+                    <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1F5FAF]">
+                      {step.step}
+                    </p>
+                    <h3 className="mt-3 text-xl font-semibold text-black">
+                      {step.title}
+                    </h3>
+                    {step.description ? (
+                      <p className="mt-3 text-sm leading-6 text-black/[0.7]">
+                        {step.description}
+                      </p>
+                    ) : null}
+                    {step.items?.length ? (
+                      <ul className="mt-4 space-y-2 text-sm leading-6 text-black/[0.72]">
+                        {step.items.map((item) => (
+                          <li key={item} className="flex gap-3">
+                            <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#2C7BE5]" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </div>
+
+                  <StepMediaCarousel mediaItems={imageItems} itemId={step.title} />
+                </article>
+              )
+            })}
           </div>
         </section>
 
